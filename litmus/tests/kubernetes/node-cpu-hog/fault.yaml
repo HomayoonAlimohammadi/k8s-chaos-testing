@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: node-cpu-hog
+  namespace: litmus
   labels:
     name: node-cpu-hog
     app.kubernetes.io/part-of: litmus

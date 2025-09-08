@@ -57,9 +57,6 @@ def cleanup(args):
         if tests_to_run and test_name not in tests_to_run:
             continue
             
-        if test_name != "docker-service-kill": # TODO: remove
-            print(f"⚠ Skipping cleanup: {test_name}")
-            continue
         print(f"\nRunning cleanup: {test_name}")
 
         run_script(test_dir / 'cleanup.sh', test_name)
@@ -88,7 +85,9 @@ def run_tests(args):
             
         print(f"\nRunning test: {test_name}")
         
-        scripts = ['run.sh', 'verify.sh', 'cleanup.sh']
+        scripts = ['run.sh', 'verify.sh']
+        if not args.no_cleanup:
+            scripts.append('cleanup.sh')
         test_passed = True
         
         for script_name in scripts:
@@ -130,6 +129,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run Kubernetes chaos tests')
     parser.add_argument('--cleanup', action='store_true',
                         help='Only run cleanup scripts')
+    parser.add_argument('--no-cleanup', action='store_true',
+                        help='Do not run cleanup scripts after tests') 
     parser.add_argument('--tests', type=str,
                         help='Comma-separated list of test names to run (test directory names)')
     args = parser.parse_args()
