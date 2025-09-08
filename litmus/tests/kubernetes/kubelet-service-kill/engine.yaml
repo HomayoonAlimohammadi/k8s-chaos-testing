@@ -3,24 +3,23 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   #ex. values: ns1:name=percona,ns2:run=nginx
   auxiliaryAppInfo: ''
-  chaosServiceAccount: kubelet-service-kill-sa
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: kubelet-service-kill
       spec:
         components:
-        # nodeSelector:
-        #   # provide the node labels
-        #   kubernetes.io/hostname: 'node02'
+          nodeSelector:
+            kubernetes.io/hostname: ${KUBELET_SERVICE_KILL__TARGET_NODE}
           env:
             - name: TOTAL_CHAOS_DURATION
               value: '60' # in seconds
 
              # provide the target node name
             - name: TARGET_NODE
-              value: ''
+              value: ${KUBELET_SERVICE_KILL__TARGET_NODE}

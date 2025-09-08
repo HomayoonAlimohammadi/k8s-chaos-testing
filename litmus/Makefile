@@ -1,15 +1,19 @@
+HACK_DIR := hack
+TESTS_DIR := tests
+K8S_TESTS_DIR := $(TESTS_DIR)/kubernetes
+
 .PHONY: setup
 setup:
-	./hack/setup.sh
+	cd $(HACK_DIR) && ./setup.sh
 
 .PHONY: cleanup
 cleanup:
-	./hack/cleanup.sh
+	cd $(HACK_DIR) && ./cleanup.sh
 
-.PHONY: run
-run: k8s-tests
+.PHONY: all
+all: k8s-tests
 
-.PHONY: kubernetes
-k8s-tests:
-	python3 ./kubernetes/run.py
+.PHONY: k8s-tests
+k8s-tests: setup
+	cd $(K8S_TESTS_DIR) && python3 run.py
 

@@ -1,3 +1,4 @@
 #!/bin/bash
 
-kubectl delete -f operator -f rbac
+echo "hi!"
+kubectl delete -f ../operator -f ../rbac

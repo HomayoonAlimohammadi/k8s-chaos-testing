@@ -40,6 +40,11 @@ def main(args):
 def cleanup(args):
     current_dir = Path(__file__).parent
     
+    # Get list of tests to run
+    tests_to_run = None
+    if args.tests:
+        tests_to_run = [test.strip() for test in args.tests.split(',')]
+    
     for test_dir in current_dir.iterdir():
         if not test_dir.is_dir():
             continue
@@ -47,6 +52,11 @@ def cleanup(args):
         test_name = test_dir.name
         if test_name == "util":
             continue
+            
+        # Filter tests if specific tests are requested
+        if tests_to_run and test_name not in tests_to_run:
+            continue
+            
         if test_name != "docker-service-kill": # TODO: remove
             print(f"⚠ Skipping cleanup: {test_name}")
             continue
@@ -59,6 +69,11 @@ def run_tests(args):
     current_dir = Path(__file__).parent
     test_results = {}
     
+    # Get list of tests to run
+    tests_to_run = None
+    if args.tests:
+        tests_to_run = [test.strip() for test in args.tests.split(',')]
+    
     for test_dir in current_dir.iterdir():
         if not test_dir.is_dir():
             continue
@@ -66,9 +81,11 @@ def run_tests(args):
         test_name = test_dir.name
         if test_name == "util":
             continue
-        if test_name != "docker-service-kill": # TODO: remove
-            print(f"⚠ Skipping test: {test_name}")
+            
+        # Filter tests if specific tests are requested
+        if tests_to_run and test_name not in tests_to_run:
             continue
+            
         print(f"\nRunning test: {test_name}")
         
         scripts = ['run.sh', 'verify.sh', 'cleanup.sh']
@@ -111,7 +128,9 @@ def run_tests(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run Kubernetes chaos tests')
-    parser.add_argument('--cleanup', action='store_true', 
-                       help='Only run cleanup scripts')
+    parser.add_argument('--cleanup', action='store_true',
+                        help='Only run cleanup scripts')
+    parser.add_argument('--tests', type=str,
+                        help='Comma-separated list of test names to run (test directory names)')
     args = parser.parse_args()
     main(args)
