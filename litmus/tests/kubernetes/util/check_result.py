@@ -73,12 +73,12 @@ def main():
                 exit_code = term.get("exitCode")
                 reason = term.get("reason", "")
                 if int(exit_code) == 0 and reason == "Completed":
-                    print("nginx-chaos container exited successfully")
+                    print("chaos-runner container exited successfully")
                 else:
-                    print(f"nginx-chaos container failed to complete (exitCode={exit_code}, reason={reason})")
+                    print(f"chaos-runner container failed to complete (exitCode={exit_code}, reason={reason})")
                     sys.exit(1)
             else:
-                print("nginx-chaos container is not terminated")
+                print("chaos-runner container is not terminated")
                 sys.exit(1)
 
 

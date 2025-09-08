@@ -4,10 +4,11 @@ set -euo pipefail
 
 TRIES=100
 SLEEP=5
+DIR_NAME=$(basename "$(pwd)")
 
 for ((i=1; i<=TRIES; i++)); do
   echo "[$i/$TRIES] Verifying..."
-  if python3 ../util/check_result.py --name nginx-chaos-node-cpu-hog --namespace litmus; then
+  if python3 ../util/check_result.py --name nginx-chaos-$DIR_NAME --namespace litmus; then
     echo "Success!"
     exit 0
   fi

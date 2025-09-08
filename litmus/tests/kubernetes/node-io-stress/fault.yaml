@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: node-io-stress
+  namespace: litmus
   labels:
     name: node-io-stress
     app.kubernetes.io/part-of: litmus
