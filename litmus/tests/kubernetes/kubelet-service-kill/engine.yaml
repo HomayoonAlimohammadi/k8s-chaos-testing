@@ -18,7 +18,7 @@ spec:
             kubernetes.io/hostname: ${KUBELET_SERVICE_KILL__TARGET_NODE}
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: ${KUBELET_SERVICE_KILL__TOTAL_CHAOS_DURATION}
+              value: "${KUBELET_SERVICE_KILL__TOTAL_CHAOS_DURATION}"
 
              # provide the target node name
             - name: TARGET_NODE

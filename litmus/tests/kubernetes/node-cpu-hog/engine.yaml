@@ -17,7 +17,7 @@ spec:
           env:
             # set chaos duration (in sec) as desired
             - name: TOTAL_CHAOS_DURATION
-              value: ${NODE_CPU_HOG__TOTAL_CHAOS_DURATION}
+              value: "${NODE_CPU_HOG__TOTAL_CHAOS_DURATION}"
 
             ## ENTER THE NUMBER OF CORES OF CPU FOR CPU HOGGING
             ## OPTIONAL VALUE IN CASE OF EMPTY VALUE IT WILL TAKE NODE CPU CAPACITY

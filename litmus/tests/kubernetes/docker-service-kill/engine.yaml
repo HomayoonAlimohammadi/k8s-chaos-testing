@@ -18,7 +18,7 @@ spec:
             kubernetes.io/hostname: ${DOCKER_SERVICE_KILL__TARGET_NODE}
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: ${DOCKER_SERVICE_KILL__TOTAL_CHAOS_DURATION}
+              value: "${DOCKER_SERVICE_KILL__TOTAL_CHAOS_DURATION}"
 
             - name: TARGET_NODE
               value: "${DOCKER_SERVICE_KILL__TARGET_NODE}"
