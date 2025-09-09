@@ -3,22 +3,22 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-cpu-hog-sa
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-cpu-hog
       spec:
         components:
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: '60' # in seconds
+              value: '${POD_CPU_HOG__TOTAL_CHAOS_DURATION}' # in seconds
 
             - name: CPU_CORES
               value: '1'
@@ -29,8 +29,6 @@ spec:
 
             ## provide the cluster runtime
             - name: CONTAINER_RUNTIME
-              value: 'containerd'
-
-            # provide the socket file path
+              value: containerd
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
