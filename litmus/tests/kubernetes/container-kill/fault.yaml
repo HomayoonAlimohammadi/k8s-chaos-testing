@@ -5,9 +5,9 @@ description:
 kind: ChaosExperiment
 metadata:
   name: container-kill
+  namespace: litmus
   labels:
     name: container-kill
-    namespace: litmus
     app.kubernetes.io/part-of: litmus
     app.kubernetes.io/component: chaosexperiment
     app.kubernetes.io/version: 3.20.0

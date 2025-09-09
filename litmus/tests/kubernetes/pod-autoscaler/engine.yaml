@@ -3,17 +3,17 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   #ex. values: ns1:name=percona,ns2:run=nginx
   auxiliaryAppInfo: ''
   appinfo:
-    appns: ''
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-autoscaler-sa
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-autoscaler
       spec:
@@ -26,4 +26,7 @@ spec:
             # number of replicas to scale
             - name: REPLICA_COUNT
               value: '5'
-
+            - name: CONTAINER_RUNTIME
+              value: containerd
+            - name: SOCKET_PATH
+              value: /var/snap/k8s/common/run/containerd.sock
