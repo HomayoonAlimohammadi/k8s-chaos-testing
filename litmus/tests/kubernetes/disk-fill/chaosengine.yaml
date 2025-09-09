@@ -3,38 +3,37 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   #ex. values: ns1:name=percona,ns2:run=nginx
   auxiliaryAppInfo: ''
   appinfo:
-    appns: ''
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: disk-fill-sa
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: disk-fill
       spec:
         components:
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: '60'
+              value: '${DISK_FILL__TOTAL_CHAOS_DURATION}'
 
             # specify the fill percentage according to the disk pressure required
             - name: FILL_PERCENTAGE
-              value: '80'
+              value: '${DISK_FILL__FILL_PERCENTAGE}'
 
             - name: PODS_AFFECTED_PERC
               value: ''
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: "/run/containerd/containerd.sock"
+              value: /var/snap/k8s/common/run/containerd.sock
 
             # provide the name of container runtime
             # it supports docker, containerd, crio
             - name: CONTAINER_RUNTIME
-              value: "containerd"
-
+              value: containerd
