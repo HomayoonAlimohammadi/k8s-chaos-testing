@@ -3,13 +3,13 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   #ex. values: ns1:name=percona,ns2:run=nginx
   auxiliaryAppInfo: ''
-  chaosServiceAccount: node-taint-sa
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: node-taint
       spec:
@@ -19,11 +19,11 @@ spec:
         #   kubernetes.io/hostname: 'node02'
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: '60'
+              value: '${NODE_TAINT__TOTAL_CHAOS_DURATION}'
 
             # set target node name
             - name: TARGET_NODE
-              value: ''
+              value: ${NODE_TAINT__TARGET_NODE}
 
              # set taint label & effect
              # key=value:effect or key:effect
