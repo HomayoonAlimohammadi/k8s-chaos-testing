@@ -3,13 +3,13 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   #ex. values: ns1:name=percona,ns2:run=nginx
   auxiliaryAppInfo: ''
-  chaosServiceAccount: node-memory-hog-sa
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: node-memory-hog
       spec:
@@ -25,12 +25,12 @@ spec:
 
             # provide the comma separated target node names
             - name: TARGET_NODES
-              value: ''
+              value: ${NODE_MEMORY_HOG_TARGET_NODES}
 
             ## Specify the size as percent of total node capacity Ex: '30'
             ## NOTE: for selecting this option keep MEMORY_CONSUMPTION_MEBIBYTES empty
             - name: MEMORY_CONSUMPTION_PERCENTAGE
-              value: '0'
+              value: '${NODE_MEMORY_HOG_MEMORY_CONSUMPTION_PERCENTAGE}'
 
             ## Specify the amount of memory to be consumed in mebibytes
             ## NOTE: for selecting this option keep MEMORY_CONSUMPTION_PERCENTAGE empty
