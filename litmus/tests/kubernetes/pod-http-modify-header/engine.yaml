@@ -3,23 +3,23 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-http-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
+    appns: "litmus"
     # FYI, To see app label, apply kubectl get pods --show-labels
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-http-modify-header-sa
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-http-modify-header
       spec:
         components:
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: '60' # in seconds
+              value: '${POD_HTTP_MODIFY_HEADER__TOTAL_CHAOS_DURATION}' # in seconds
 
             # port of the target service
             - name: TARGET_SERVICE_PORT
@@ -28,7 +28,7 @@ spec:
             # map of headers to modify/add; Eg: {"X-Litmus-Test-Header": "X-Litmus-Test-Value"}
             # to remove a header, just set the value to ""; Eg: {"X-Litmus-Test-Header": ""}
             - name: HEADERS_MAP
-              value: '{}'
+              value: '{"X-Litmus-Test-Header": "X-Litmus-Test-Value"}'
 
             # whether to modify response headers or request headers. Accepted values: request, response
             - name: HEADER_MODE
@@ -37,11 +37,11 @@ spec:
             # provide the name of container runtime
             # it supports docker, containerd, crio
             - name: CONTAINER_RUNTIME
-              value: 'containerd'
+              value: containerd
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
 
              ## percentage of total pods to target
             - name: PODS_AFFECTED_PERC
