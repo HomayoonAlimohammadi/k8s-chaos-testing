@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-http-reset-peer
+  namespace: litmus
   labels:
     name: pod-http-reset-peer
     app.kubernetes.io/part-of: litmus

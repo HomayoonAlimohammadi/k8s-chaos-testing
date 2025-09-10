@@ -3,16 +3,16 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
+    appns: "litmus"
     # FYI, To see app label, apply kubectl get pods --show-labels
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-http-reset-peer-sa
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-http-reset-peer
       spec:
@@ -20,11 +20,11 @@ spec:
           env:
             # set chaos duration (in sec) as desired
             - name: TOTAL_CHAOS_DURATION
-              value: '60' # in seconds
+              value: '${POD_HTTP_RESET_PEER__TOTAL_CHAOS_DURATION}' # in seconds
 
             # reset timeout specifies after how much duration to reset the connection
             - name: RESET_TIMEOUT
-              value: '0' #in ms
+              value: '2000'
 
             # port of the target service
             - name: TARGET_SERVICE_PORT
@@ -37,11 +37,11 @@ spec:
             # for litmus LIB, it supports docker, containerd, crio
             # for pumba LIB, it supports docker only
             - name: CONTAINER_RUNTIME
-              value: 'containerd'
+              value: containerd
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
 
              ## percentage of total pods to target
             - name: PODS_AFFECTED_PERC
