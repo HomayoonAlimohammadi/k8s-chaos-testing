@@ -3,23 +3,23 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-network-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
+    appns: "litmus"
     # FYI, To see app label, apply kubectl get pods --show-labels
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-network-loss-sa
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-network-loss
       spec:
         components:
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: '60' # in seconds
+              value: '${POD_NETWORK_LOSS__TOTAL_CHAOS_DURATION}' # in seconds
 
             - name: NETWORK_PACKET_LOSS_PERCENTAGE
               value: '100'
@@ -32,7 +32,7 @@ spec:
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
 
             ## percentage of total pods to target
             - name: PODS_AFFECTED_PERC
