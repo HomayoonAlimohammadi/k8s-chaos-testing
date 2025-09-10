@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-network-partition
+  namespace: litmus
   labels:
     name: pod-network-partition
     app.kubernetes.io/part-of: litmus

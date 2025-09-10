@@ -3,21 +3,25 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-network-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
+    appns: "litmus"
     # FYI, To see app label, apply kubectl get pods --show-labels
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-network-partition-sa
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-network-partition
       spec:
         components:
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: '60' # in seconds
+              value: '${POD_NETWORK_PARTITION__TOTAL_CHAOS_DURATION}' # in seconds
 
+            - name: CONTAINER_RUNTIME
+              value: containerd
+            - name: SOCKET_PATH
+              value: /var/snap/k8s/common/run/containerd.sock
