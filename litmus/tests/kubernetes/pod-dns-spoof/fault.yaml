@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-dns-spoof
+  namespace: litmus
   labels:
     name: pod-dns-spoof
     app.kubernetes.io/part-of: litmus

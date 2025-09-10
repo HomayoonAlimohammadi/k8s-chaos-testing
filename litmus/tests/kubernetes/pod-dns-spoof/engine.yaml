@@ -3,23 +3,24 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
+  namespace: litmus
 spec:
   appinfo:
-    appns: ""
-    applabel: ""
-    appkind: ""
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
   # It can be active/stop
   engineState: "active"
   #ex. values: ns1:name=percona,ns2:run=nginx
   auxiliaryAppInfo: ""
-  chaosServiceAccount: pod-dns-spoof-sa
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-dns-spoof
       spec:
         components:
           env:
             - name: TOTAL_CHAOS_DURATION
-              value: "60" # in seconds
+              value: "${POD_DNS_SPOOF__TOTAL_CHAOS_DURATION}" # in seconds
 
             # map of the target hostnames eg. '{"abc.com":"spoofabc.com"}' . If empty no queries will be spoofed
             - name: SPOOF_MAP
@@ -27,11 +28,11 @@ spec:
 
             # provide the name of container runtime, it supports docker, containerd, crio
             - name: CONTAINER_RUNTIME
-              value: 'containerd'
+              value: containerd
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
 
              ## percentage of total pods to target
             - name: PODS_AFFECTED_PERC
