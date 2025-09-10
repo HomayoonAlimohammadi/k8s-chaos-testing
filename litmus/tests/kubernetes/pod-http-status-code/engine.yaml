@@ -3,14 +3,15 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-http-status-code-sa
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-http-status-code
       spec:
@@ -18,7 +19,7 @@ spec:
           env:
             # set chaos duration (in sec) as desired
             - name: TOTAL_CHAOS_DURATION
-              value: '30'
+              value: '${POD_HTTP_STATUS_CODE__TOTAL_CHAOS_DURATION}'
 
             # set chaos interval (in sec) as desired
             - name: CHAOS_INTERVAL
@@ -29,7 +30,7 @@ spec:
             # if an invalid status code is provided, the experiment will fail
             # supported status code list: [200, 201, 202, 204, 300, 301, 302, 304, 307, 400, 401, 403, 404, 500, 501, 502, 503, 504
             - name: STATUS_CODE
-              value: ''
+              value: '500'
 
             #  whether to modify the body as per the status code provided
             - name: "MODIFY_RESPONSE_BODY"
@@ -42,11 +43,11 @@ spec:
             # provide the name of container runtime
             # it supports docker, containerd, crio
             - name: CONTAINER_RUNTIME
-              value: 'containerd'
+              value: containerd
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
 
              ## percentage of total pods to target
             - name: PODS_AFFECTED_PERC

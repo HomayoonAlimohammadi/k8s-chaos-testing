@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-http-status-code
+  namespace: litmus
   labels:
     name: pod-http-status-code
     app.kubernetes.io/part-of: litmus
