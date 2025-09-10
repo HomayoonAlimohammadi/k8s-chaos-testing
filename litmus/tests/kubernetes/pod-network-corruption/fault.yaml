@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-network-corruption
+  namespace: litmus
   labels:
     name: pod-network-corruption
     app.kubernetes.io/part-of: litmus
