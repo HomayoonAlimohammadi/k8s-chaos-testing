@@ -3,14 +3,15 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-http-modify-body-sa
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-http-modify-body
       spec:
@@ -18,11 +19,11 @@ spec:
           env:
             # set chaos duration (in sec) as desired
             - name: TOTAL_CHAOS_DURATION
-              value: '60' # in seconds
+              value: '${POD_HTTP_MODIFY_BODY__TOTAL_CHAOS_DURATION}' # in seconds
 
             # provide the body string to overwrite the response body
             - name: RESPONSE_BODY
-              value: ''
+              value: 'Some data'
 
             # port of the target service
             - name: TARGET_SERVICE_PORT
@@ -31,13 +32,15 @@ spec:
             # provide the name of container runtime
             # it supports docker, containerd, crio
             - name: CONTAINER_RUNTIME
-              value: 'containerd'
+              value: containerd
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: '/run/containerd/containerd.sock'
+              value: /var/snap/k8s/common/run/containerd.sock
 
              ## percentage of total pods to target
             - name: PODS_AFFECTED_PERC
               value: ''
 
+            - name: TOXICITY
+              value: '100'

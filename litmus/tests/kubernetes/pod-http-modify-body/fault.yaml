@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-http-modify-body
+  namespace: litmus
   labels:
     name: pod-http-modify-body
     app.kubernetes.io/part-of: litmus
