@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-dns-error
+  namespace: litmus
   labels:
     name: pod-dns-error
     app.kubernetes.io/part-of: litmus
