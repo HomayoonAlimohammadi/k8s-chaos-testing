@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-cpu-hog-exec
+  namespace: litmus
   labels:
     name: pod-cpu-hog-exec
     app.kubernetes.io/part-of: litmus

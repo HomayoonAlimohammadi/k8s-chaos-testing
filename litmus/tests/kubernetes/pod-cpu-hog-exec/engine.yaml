@@ -3,15 +3,15 @@ apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
   name: nginx-chaos
-  namespace: default
+  namespace: litmus
 spec:
   # It can be active/stop
   engineState: 'active'
   appinfo:
-    appns: ''
-    applabel: ''
-    appkind: ''
-  chaosServiceAccount: pod-cpu-hog-exec-sa
+    appns: "litmus"
+    applabel: "app=nginx"
+    appkind: "deployment"
+  chaosServiceAccount: litmus-superuser
   experiments:
     - name: pod-cpu-hog-exec
       spec:
@@ -28,4 +28,8 @@ spec:
              ## Percentage of total pods to target
             - name: PODS_AFFECTED_PERC
               value: ''
-
+ 
+            - name: CONTAINER_RUNTIME
+              value: containerd
+            - name: SOCKET_PATH
+              value: /var/snap/k8s/common/run/containerd.sock
