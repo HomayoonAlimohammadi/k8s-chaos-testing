@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-delete
+  namespace: litmus
   labels:
     name: pod-delete
     app.kubernetes.io/part-of: litmus
