@@ -6,6 +6,7 @@ description:
 kind: ChaosExperiment
 metadata:
   name: pod-http-latency
+  namespace: litmus
   labels:
     name: pod-http-latency
     app.kubernetes.io/part-of: litmus
