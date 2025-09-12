@@ -2,3 +2,4 @@
 
 echo "hi!"
 kubectl delete -f ../operator -f ../rbac
+kubectl delete -f nginx.yaml
