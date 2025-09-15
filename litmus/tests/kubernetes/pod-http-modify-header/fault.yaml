@@ -69,7 +69,7 @@ spec:
       - apiGroups: ["litmuschaos.io"]
         resources: ["chaosengines", "chaosexperiments", "chaosresults"]
         verbs: ["create", "list", "get", "patch", "update", "delete"]
-    image: "litmuschaos.docker.scarf.sh/litmuschaos/go-runner:3.20.0"
+    image: "litmuschaos/go-runner:3.20.0"
     imagePullPolicy: Always
     args:
       - -c
@@ -82,7 +82,7 @@ spec:
 
       # provide lib image
       - name: LIB_IMAGE
-        value: "litmuschaos.docker.scarf.sh/litmuschaos/go-runner:3.20.0"
+        value: "litmuschaos/go-runner:3.20.0"
 
       # map of headers to modify/add; Eg: {"X-Litmus-Test-Header": "X-Litmus-Test-Value"}
       # to remove a header, just set the value to ""; Eg: {"X-Litmus-Test-Header": ""}
