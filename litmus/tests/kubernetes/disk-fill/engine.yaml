@@ -31,7 +31,7 @@ spec:
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: /var/snap/k8s/common/run/containerd.sock
+              value: /run/containerd/containerd.sock
 
             # provide the name of container runtime
             # it supports docker, containerd, crio

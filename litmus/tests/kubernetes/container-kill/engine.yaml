@@ -32,7 +32,7 @@ spec:
 
             # provide the socket file path
             - name: SOCKET_PATH
-              value: /var/snap/k8s/common/run/containerd.sock
+              value: /run/containerd/containerd.sock
 
             - name: PODS_AFFECTED_PERC
               value: ''

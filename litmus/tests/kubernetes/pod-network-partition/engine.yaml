@@ -24,4 +24,4 @@ spec:
             - name: CONTAINER_RUNTIME
               value: containerd
             - name: SOCKET_PATH
-              value: /var/snap/k8s/common/run/containerd.sock
+              value: /run/containerd/containerd.sock
