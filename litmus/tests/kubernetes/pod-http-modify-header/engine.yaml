@@ -2,7 +2,7 @@
 apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
-  name: nginx-http-chaos
+  name: nginx-chaos
   namespace: litmus
 spec:
   # It can be active/stop
