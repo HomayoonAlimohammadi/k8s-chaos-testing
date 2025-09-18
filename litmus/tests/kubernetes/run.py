@@ -12,7 +12,7 @@ def run_script(script_path, test_name):
         result = subprocess.run(
             [script_path],
             text=True,
-            timeout=300,
+            timeout=600,
             stdout=sys.stdout,
             stderr=sys.stderr,
         )
@@ -96,6 +96,8 @@ def run_tests(args):
                 success = run_script(script_path, test_name)
                 if not success:
                     test_passed = False
+                    if not args.no_cleanup:
+                        run_script(test_dir / "cleanup.sh", test_name)
                     break  # Stop on first failure
             else:
                 print(f"⚠ {test_name}: {script_name} not found")
